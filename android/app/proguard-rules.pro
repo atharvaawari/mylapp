@@ -8,3 +8,22 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+-keep class com.google.** { *; }
+-keep class io.grpc.** { *; }
+
+# Keep React Native classes
+-keep class com.facebook.react.** { *; }
+-keep class com.facebook.react.bridge.** { *; }
+-keep class com.facebook.react.uimanager.** { *; }
+-keep class com.facebook.fbreact.specs.** { *; }
+
+# Keep OkHttp classes (used by React Native networking)
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *; }
+
+# Keep JS modules
+-keep class com.facebook.react.modules.** { *; }
+
+# Keep parts of the AndroidX libraries if they’re being used
+-keep class androidx.** { *; }
+-dontwarn androidx.**
