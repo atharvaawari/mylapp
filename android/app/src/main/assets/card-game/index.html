@@ -1,0 +1,753 @@
+
+
+
+
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+	* {
+		padding: 0;
+		margin: 0;
+	}
+
+	.Memory-game-main-container{
+		overflow-y: scroll;
+	}
+
+	.memoryGameTitle {
+		width: 90%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.memoryGameTitle img {
+		display: flex;
+		align-items: start;
+	}
+
+	.backBtn {
+		text-align: left;
+		position: absolute;
+	}
+
+	.game-screen-two {
+		/* background-image: url('/static/web-games/memory-card-game/Frame.png'); /* Replace with the path to your image */
+		/* background-size: cover; /* Ensure the image covers the entire container */
+		/* background-position: center;   */
+		background-color: #eed6bc;
+		max-width: 600px;
+		min-height: 100vh;
+		overflow: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: start;
+		margin: 0px auto;
+		position: relative;
+		color: #ffffff;
+		padding-top: 1rem;
+	}
+
+	.memory-game-wrapper {
+		position: relative;
+		/* background-color: #ffffff; */
+		/* display: flex; */
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border-radius: 10px;
+		width: fit-content;
+	}
+
+	.memory-card-game-levels {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		row-gap: 2rem;
+		z-index: 10;
+	}
+
+	.beginner-btn,
+	.intermediate-btn,
+	.expert-btn {
+		padding: 15px 30px;
+		min-width: 200px;
+		min-height: 56px;
+		font-size: 17px;
+		font-weight: 700;
+		border: none;
+		border-radius: 8px;
+		background-color: transparent;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+		border: 3px solid #983424;	
+		background-color: #fea557;
+		border-radius: 8px;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.game-mode-active {
+		/* background-color: #fea456; */
+		/* color: #000000; */
+		cursor: pointer;
+		/* box-shadow: -4px 4px #CCB029; */
+		transition: background-color 0.3s ease;
+	}
+
+
+
+	.card-game-container {
+		width: var(--gameContainer-size);
+		position: relative;
+		display: flex;
+		margin-top: 10px;
+		flex-wrap: wrap;
+		row-gap: 3px;
+		background-color: #ffffff;
+		padding: 10px 10px;
+		border-radius: 14px;
+	}
+
+	.score-stats {
+		text-align: right;
+		font-weight: bold;
+		width: 100%;
+		height: 50px;
+		padding: 0;
+		margin: .7rem 0rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		gap: 1.2rem;
+		/* align-items: baseline; */
+		align-items: center;
+	}
+
+	.stats-container {
+		text-align: left;
+		margin-bottom: 1.2em;
+	}
+
+	.stars-res {
+		text-align: center;
+		margin-bottom: 1.2em;
+	}
+
+	.stats-container span {
+		font-weight: 600;
+	}
+
+
+	.stars {
+		display: flex;
+		list-style: none;
+		justify-content: center;
+	}
+
+	.card-container {
+		position: relative;
+		width: var(--card-width);
+		height: var(--card-height);
+		cursor: pointer;
+		margin: 3px auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#restart {
+		font-size: 1.1em;
+		margin: 1.1em auto 0 auto;
+		padding: 10px 22px;
+		cursor: pointer;
+		margin: 0.8rem auto;
+		border-radius: 20px;
+		background-color: #fea557;
+		/* background-image: url('/static/web-games/memory-card-game/button.png'); */
+		background-size: cover;
+		border: 3px solid #983424;
+		background-position: center;
+		color: #000000;
+		width: 160px;
+		border-radius: 8px;
+		padding: 0.7rem 0.5rem;
+		font-weight: 700;
+		font-size: 19px;
+	}
+
+	.new-game {
+		font-size: 1.1em;
+		margin: 1.1em auto 0 auto;
+		padding: 10px 22px;
+		cursor: pointer;
+		margin: 0.8rem auto;
+		border-radius: 20px;
+		background-color: #FFE566;
+		box-shadow: -6px 6px #CCB029;
+		color: #000000;
+		border: none;
+		width: 150px;
+		border-radius: 8px;
+		padding: 0.7rem 0.5rem;
+		font-weight: 700;
+		font-size: 19px;
+	}
+
+	#start {
+		background-color: #FFE566;
+		box-shadow: 0px 6px 0px #CCB029;
+		color: #000000;
+		border: none;
+		width: 200px;
+		border-radius: 20px;
+		padding: 0.7rem 0.5rem;
+		font-weight: 700;
+		font-size: 22px;
+		position: absolute;
+		transform: translate(-50%, -50%);
+		z-index: 1;
+	}
+
+	.reduce-startButton-area {
+		width: 0;
+		height: 0;
+	}
+
+	.start-stop {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+	}
+
+	.restart {
+		cursor: pointer;
+	}
+
+	.card-before {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		border-radius: 10px;
+		font-family: "Poppins", sans-serif;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid #000000;
+		transition: transform 0.7s ease-out;
+		backface-visibility: hidden;
+	}
+
+	.card-after {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid #000000;
+		transition: transform 0.7s ease-out;
+		backface-visibility: hidden;
+	}
+
+	.card-before {
+		background-color: #FFE3C8;
+		font-size: 2.8em;
+		font-weight: 600;
+	}
+
+	.card-after {
+		transform: rotateY(180deg);
+	}
+
+	.card-after img {
+		width: 80%;
+	}
+
+	.image-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.8);
+		/* Adjust the opacity here (0.5 is 50% opacity) */
+	}
+
+	.matched {
+		width: 100%;
+		height: 100%;
+	}
+
+	.matched .card-after {
+		background-color: #A3A3A3;
+	}
+
+	.card-container.flipped .card-before {
+		transform: rotateY(180deg);
+	}
+
+	.card-container.flipped .card-after {
+		transform: rotateY(0deg);
+	}
+
+
+	.controls-container button {
+		font-size: 1.3em;
+		box-shadow: 0 0.6em 2em rgba(86, 66, 0, 0.2);
+	}
+
+	.hide {
+		display: none;
+	}
+
+	#result {
+		text-align: center;
+	}
+
+	#result h2 {
+		font-size: 2.5em;
+	}
+
+	#result h4 {
+		font-size: 1.8em;
+		margin: 0.6em 0 1em 0;
+	}
+
+	/* Styling for the popup container */
+	.popup {
+		/* display: none; Initially hide the popup */
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: white;
+		padding: 20px;
+		border: 1px solid #ccc;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+		z-index: 9999;
+		border-radius: 20px;
+		min-width: 300px;
+		overflow: hidden;
+	}
+
+	/* Styling for the overlay */
+	.overlay {
+		/* display: none; Initially hide the overlay */
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 999;
+	}
+
+	.hidePopUp {
+		display: none;
+	}
+
+	.center-results {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		margin-left: 10px;
+	}
+
+	.popup-content-menu {
+		/* background-color: #fff; */
+		background-image: url('/static/web-games/memory-card-game/pause-popup.png');
+		/* Replace with the path to your image */
+		background-size: cover;
+		/* Ensure the image covers the entire container */
+		background-position: center;
+		border-radius: 20px;
+		box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+		padding: 20px;
+		/* width: 60%;
+  height: 50%; */
+		width: 280px;
+		height: 250px;
+		display: flex;
+		flex-direction: column;
+		justify-content: end;
+		align-items: center;
+		gap: 20px;
+		/* max-width: 400px; */
+		margin: auto;
+		text-align: center;
+	}
+
+	#select-level,
+	#close-btn {
+		background-size: cover;
+		background-position: center;
+		background-color: transparent;
+		width: 80%;
+		padding:12px;
+		font-size: 1.3rem;
+		font-weight: 600;
+		border: none;
+		border: 3px solid #983424;	
+		background-color: #fea557;
+		border-radius: 8px;
+	}
+
+
+	img,
+	svg {
+		vertical-align: middle;
+	}
+
+	.close {
+		color: #e27f7f;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+		cursor: pointer;
+
+	}
+
+	#closeBtn {
+		background-color: #ff6347;
+		min-width: 111px;
+		color: #fff;
+		border: none;
+		padding: 8px 10px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 20px;
+		font-weight: bold;
+		transition: background-color 0.3s ease;
+		margin-top: 6%;
+	}
+
+	#close:hover {
+		background-color: #e74c3c;
+		/* Background color on hover */
+	}
+
+	.close:hover,
+	.close:focus {
+		color: #e74c3c;
+		text-decoration: none;
+	}
+
+	#level-btn-box {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin: auto;
+		max-width: 500px;
+		height: 100vh;
+		background-color: #eed6bc;
+		box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	.menu-button button {
+		/* padding: 15px 54px; */
+		min-width: 100px;
+		min-height: 30px;
+		font-size: 16px;
+		cursor: pointer;
+		border: 3px solid #983424;	
+		background-color: #fea557;
+		border-radius: 8px;
+		background-size: cover;
+	    background-position: center;
+	}
+
+	.menu-popup {
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: rgba(23, 22, 22, 0.297);
+		padding: 20px;
+		border: 1px solid #ccc;
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+		z-index: 1000;
+		border-radius: 20px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.popup-content {
+		background-color: #ffffff;
+		padding: 20px;
+		border-radius: 10px;
+		text-align: center;
+		width: 300px;
+		/* Adjust width as needed */
+	}
+
+	.popup-content button {
+		margin-top: 20px;
+		padding: 8px 16px;
+		font-size: 16px;
+		cursor: pointer;
+	}
+
+
+	.rectangle-container {
+		width: 100px;
+		height: 50px;
+		background-color: #ffffff;
+		color: black;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		border-radius: 5px;
+		border: 2px solid seagreen;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		text-align: center;
+		padding: 5px;
+		box-sizing: border-box;
+	}
+
+
+	#pop-up {
+		background: white;
+		color: black;
+		width: 266px;
+		height: 280px;
+		position: absolute;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		top: 25%;
+	}
+
+
+	#score-popUp-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	#user-score {
+		font-size: 42px;
+		color: #633b17;
+		background-color: #d78038;
+		padding: 10px 25px;
+		border-radius: 12px;
+	}
+
+	#score-popUp {
+		color: black;
+		width: 400px;
+		height: 353px;
+		position: absolute;
+		display: none;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+		padding: 10px;
+		top: 25%;
+        border: 5px solid #983424;
+        background-color: #fea557;
+        border-radius: 17px;
+	}
+
+	#retry {
+		border: none;
+		border-radius: 12px;
+		font-weight: bold;
+		font-size: 16px;
+		color: #633b17;
+		background-color: #d78038;
+        border: 3px solid #983424;
+		padding: 10px 16px;
+	}
+
+	#login-to-submit {
+		border: none;
+		border-radius: 12px;
+		font-weight: bold;
+		font-size: 16px;
+		color: #633b17;
+		background-color: #d78038;
+        border: 3px solid #983424;
+		padding: 10px 16px;
+	}
+
+	.popUp-btn-box {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+        padding: 1rem;
+	}
+
+    #back-btn {
+      background-color: #edc651;
+      color: rgb(11, 11, 37);
+      padding: 7px 5px;
+      border-radius: 0 10px 10px 0;
+      position: fixed;
+      z-index: 9999999999999;
+      cursor: pointer;
+      bottom: 40%;
+      left: 0px;
+      font-weight: 600;
+      display: none;
+    }
+</style>
+
+<div class="Memory-game-main-container">
+
+ 
+	<div id="level-btn-box" class="game-screen-one">
+		<div class="frontGameName">
+			<img height="200px" src="/static/web-games/memory-card-game/game-name.png" alt="" srcset="">
+		</div>
+		<div class="memory-card-game-levels ">
+			<div class="beginner-button">
+				<button class="beginner-btn game-mode-btn game-mode-active">Beginner</button>
+			</div>
+			<div class="intermediate-button">
+				<button class="intermediate-btn game-mode-btn">Intermediate</button>
+			</div>
+			<div class="expert-button">
+				<button class="expert-btn game-mode-btn">Expert</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="game-screen-two hide">
+
+		<div class="memoryGameTitle">
+			<img height="60px" src="/static/web-games/memory-card-game/game-name.png" alt="" srcset="">
+			<div class="menu-button">
+				<button type="button" id="menu-btn">Menu</button>
+			</div>
+		</div>
+		<div class="score-stats" id="score-stats">
+			<div class="moves hide" id="moves">
+				Moves: 0
+			</div>
+			<!-- <div class="time" id="time">
+        Time: 00:00
+      </div> -->
+			<div class="rectangle-container time" id="time">
+				<span style="display: flex; justify-content: center;  align-items: center;">
+					<img src="/static/web-games/memory-card-game/time.png" height="35px" alt="icon"> : 00:00</span>
+			</div>
+			<div class="rectangle-container matches" id="matches">
+				Matches: 0
+			</div>
+			<div class="rectangle-container gameScore">
+				<img src="/static/web-games/memory-card-game/score.png" height="35px" alt="icon">: 0</span>
+			</div>
+		</div>
+		<div class="memory-game-wrapper" id="wrapper">
+			<div class="card-game-container" id="card-game-container">
+
+			</div>
+			<div class="start-stop">
+
+				<div class="restart">
+					<button type="button" class="restart hide" id="restart">Reset Game</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="menu-popup" id="popup">
+			<div class="popup-content-menu">
+				<!-- <h2>Menu</h2> -->
+				<button id="select-level">Select Levels</button>
+				<button id="close-btn">Back</button>
+
+			</div>
+		</div>
+
+		<!-- popUp-here   -->
+		<div id="score-popUp">
+			<div id="score-popUp-content">
+				<h2 style="font-size: 3rem; color: #633b17;">Score</h2>
+
+				<h2 class="text-center mt-3" id="user-score">0</h2>
+				<div class="popUp-btn-box">
+					<button id="retry">Retry</button>
+					<button id="login-to-submit">Login to Submit</button>
+				</div>
+
+			</div>
+		</div>
+		<!-- popUp-here   -->
+
+        <!-- login signup -here   -->
+		<div onclick="closeLoginPopup()" class="overlay" id="overlay"></div>
+
+		<div class="myl-loginPopup" id="loginPopup" style="display:none">
+			<div id="loginForm" class="form-container">
+				<button class="toggle-button" onclick="toggleForm()">CREATE ACCOUNT</button>
+
+				<input type="email" placeholder="Email" class="form-input" id="loginEmail">
+				<input type="password" placeholder="Password" class="form-input" id="loginPassword">
+				<button class="submit-button" onclick="submitLogin()">SUBMIT</button>
+
+				<div class="social-buttons">
+					<div class="social-button" onclick="handleGoogleLogin()" style="color: white;background: #4385f5">
+
+						<img src="https://www.mindyourlogic.com/static/Home_page_Assets/google-icon.svg"
+							alt="Girl in a jacket" width="40" height="40">
+						Login with google
+					</div>
+					<div class="social-button" style="color: white;background: #4385f5;">
+						<img src="https://www.mindyourlogic.com/static/Home_page_Assets/facebook-icon.svg"
+							alt="Girl in a jacket" width="40" height="40">
+						Login with facebook
+					</div>
+				</div>
+			</div>
+
+			<div id="signupForm" class="form-container activelogin">
+				<button class="toggle-button" onclick="toggleForm()">LOGIN</button>
+
+				<input type="text" placeholder="Name" class="form-input" id="signupName">
+				<input type="email" placeholder="Email" class="form-input" id="signupEmail">
+				<input type="password" placeholder="Password" class="form-input" id="signupPassword">
+				<button class="submit-button" onclick="submitSignup()">SUBMIT</button>
+
+				<div class="social-buttons">
+					<div class="social-button" onclick="handleGoogleLogin()" style="color: white;background: #4385f5">
+
+						<img src="https://www.mindyourlogic.com/static/Home_page_Assets/google-icon.svg"
+							alt="Girl in a jacket" width="40" height="40">
+						continue with google
+					</div>
+					<div class="social-button" style="color: white;background: #4385f5;">
+						<img src="https://www.mindyourlogic.com/static/Home_page_Assets/facebook-icon.svg"
+							alt="Girl in a jacket" width="40" height="40">
+						continue with facebook
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- login signup -here   -->
+
+	</div>
+
+</div>
+
+
+<p id="result"></p>
+<a id="back-btn" style="display: block;">Back</a>
+<script  type="module" defer="defer" src="./script.js"></script>

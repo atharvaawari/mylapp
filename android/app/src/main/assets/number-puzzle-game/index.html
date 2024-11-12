@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><link rel="icon" type="image/png" href="./favicon.png"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Memory Blink</title><style>* {
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        canvas {
+            display: block;
+            margin: 0;
+        }
+
+</style>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+
+<script defer="defer" src="./main.js"></script>
+
+
+</head><body style="background-color: white;"><div id="memory-blink-game-container"></div>
+
+
+        <script>
+
+let gameLevels = null;
+  let userName = null;
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const user = urlParams.get('user');
+  const levels = urlParams.get('levels');
+  
+
+  if(user && JSON.parse(user)){
+    userName = true;
+    console.log("login");
+  }else{
+    console.log("logout");
+  }
+  
+  if(levels && JSON.parse(levels)){
+    gameLevels = levels;
+    console.log("gameLevels -- ", JSON.parse(levels));
+  }
+        </script>
+</body></html>
