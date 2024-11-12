@@ -1,68 +1,101 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-const leaderboardData = [
-  {id: 1, name: 'Irha Usman', score: 418400},
-  {id: 2, name: 'Trushna Mate', score: 413600},
-  {id: 3, name: 'Anshu Maske', score: 283400},
-  {id: 4, name: 'Gauri Zanwar', score: 219200},
-  {id: 5, name: 'Muhammad Irfan', score: 217400},
-  {id: 6, name: 'Irha Usman', score: 418400},
-  {id: 7, name: 'Trushna Mate', score: 413600},
-  {id: 8, name: 'Anshu Maske', score: 283400},
-  {id: 9, name: 'Gauri Zanwar', score: 219200},
-  {id: 10, name: 'Muhammad Irfan', score: 217400},
-];
-
 const CurrGameLeaderBoard = () => {
-  // State to track the current page
-  const [currentPage, setCurrentPage] = useState(0);
-
-  // Items per page (display 5 items per page)
+  const [gameData, setGameData] = useState([]);
+  const [globalData, setGlobalData] = useState([]);
+  const [currentGamePage, setCurrentGamePage] = useState(0);
+  const [currentGlobalPage, setCurrentGlobalPage] = useState(0);
   const itemsPerPage = 5;
 
-  // Calculate the start and end index based on the current page
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const fetchGlobalScore = async () => {
+    try {
+      const response = await fetch(
+        `https://www.mindyourlogic.com/api/games/global-games-rank`,
+      );
 
-  // Slice the leaderboardData to get only the current page's data
-  const currentLeaderboardData = leaderboardData.slice(startIndex, endIndex);
+      if (!response.ok) {
+        console.error(`HTTP error! Status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Error response:', errorText); // Log raw error response
+        return;
+      }
 
-  // Handle "Next" button press
-  const handleNext = () => {
-    if (endIndex < leaderboardData.length) {
-      setCurrentPage(currentPage + 1);
+      const data = await response.json();
+      setGlobalData(data);
+    } catch (error) {
+      console.error('Fetch error:', error);
     }
   };
 
-  // Handle "Prev" button press
-  const handlePrev = () => {
-    if (startIndex > 0) {
-      setCurrentPage(currentPage - 1);
+  const fetchGameScore = async () => {
+    try {
+      const response = await fetch(
+        `https://www.mindyourlogic.com/api/games/curr-game-rank?game=color-mind-match&key=LogicalBaniyaSecretKey`,
+      );
+
+      const data = await response.json();
+      setGameData(data);
+
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  return (
+  useEffect(() => {
+    fetchGameScore();
+    fetchGlobalScore();
+  }, []);
+
+  // Pagination data for gameData and globalData
+  const gameStartIndex = currentGamePage * itemsPerPage;
+  const gameEndIndex = gameStartIndex + itemsPerPage;
+  const currentGameData = gameData.slice(gameStartIndex, gameEndIndex);
+
+  const globalStartIndex = currentGlobalPage * itemsPerPage;
+  const globalEndIndex = globalStartIndex + itemsPerPage;
+  const currentGlobalData = globalData.slice(globalStartIndex, globalEndIndex);
+
+  const handleNextGame = () => {
+    if (gameEndIndex < gameData.length) {
+      setCurrentGamePage(currentGamePage + 1);
+    }
+  };
+
+  const handlePrevGame = () => {
+    if (gameStartIndex > 0) {
+      setCurrentGamePage(currentGamePage - 1);
+    }
+  };
+
+  const handleNextGlobal = () => {
+    if (globalEndIndex < globalData.length) {
+      setCurrentGlobalPage(currentGlobalPage + 1);
+    }
+  };
+
+  const handlePrevGlobal = () => {
+    if (globalStartIndex > 0) {
+      setCurrentGlobalPage(currentGlobalPage - 1);
+    }
+  };
+
+  const renderLeaderboard = (title, data, handlePrev, handleNext) => (
     <View style={styles.leaderboardContainer}>
-      <Text style={styles.leaderboardTitle}>Leaderboard COLOR MIND-MATCH</Text>
-
+      <Text style={styles.leaderboardTitle}>{title}</Text>
       <View style={styles.rankbox}>
-  
-        {currentLeaderboardData.map(item => (
-          <View key={item.id} style={styles.leaderboardItem}>
+        {data.map((item, index) => (
+          <View key={`${item.id}-${index}`} style={styles.leaderboardItem}>
             <Text style={styles.leaderboardName}>
-              {item.id}. {item.name}
+              {index+1}. {title==="Score Board" ? ` ${item.Name}`: ` ${item.name}`}
             </Text>
-            <Text style={styles.leaderboardScore}>{item.score}</Text>
+            <Text style={styles.leaderboardScore}>{item.points}</Text>
           </View>
         ))}
-
-        
         <View style={styles.paginationButtonsContainer}>
           <TouchableOpacity style={styles.seeMoreButton} onPress={handlePrev}>
             <Text style={styles.seeMoreButtonText}>Prev</Text>
           </TouchableOpacity>
-
           <TouchableOpacity style={styles.seeMoreButton} onPress={handleNext}>
             <Text style={styles.seeMoreButtonText}>Next</Text>
           </TouchableOpacity>
@@ -70,24 +103,40 @@ const CurrGameLeaderBoard = () => {
       </View>
     </View>
   );
+
+  return (
+    <View>
+      {renderLeaderboard(
+        'Score Board',
+        currentGameData,
+        handlePrevGame,
+        handleNextGame,
+      )}
+      {renderLeaderboard(
+        'Global Leaderboard',
+        currentGlobalData,
+        handlePrevGlobal,
+        handleNextGlobal,
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   leaderboardContainer: {
     backgroundColor: '#e0f7fa',
-    borderRadius:15,
-    elevation: 5, 
+    borderRadius: 15,
+    elevation: 5,
+    marginBottom: 20,
   },
   leaderboardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
     backgroundColor: '#ffd700',
-    padding:16,
-    borderTopLeftRadius: 15, 
+    padding: 16,
+    borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0, 
   },
   leaderboardItem: {
     flexDirection: 'row',
@@ -102,17 +151,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     fontWeight: 'bold',
-    borderWidth: 1, 
-    borderColor: '#333', 
+    borderWidth: 1,
+    borderColor: '#333',
     borderRadius: 8,
-    paddingVertical:2,
-    paddingHorizontal:4
+    paddingVertical: 2,
+    paddingHorizontal: 4,
   },
   paginationButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
-    gap: 5,
   },
   seeMoreButton: {
     backgroundColor: '#ffd700',
@@ -120,27 +168,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     width: '20%',
-    marginHorizontal: 10, 
+    marginHorizontal: 10,
     shadowColor: '#ccb029',
-    shadowOffset: {width: 0, height: 4}, 
-    elevation: 5, 
-    
+    shadowOffset: {width: 0, height: 4},
+    elevation: 5,
   },
   seeMoreButtonText: {
     color: 'black',
     fontWeight: 'bold',
     textAlign: 'center',
   },
-
-  seeMoreButtonText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
+  rankbox: {
+    padding: 16,
   },
-  rankbox:{
-    padding:16
-  }
-
 });
 
 export default CurrGameLeaderBoard;

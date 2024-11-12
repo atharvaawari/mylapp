@@ -44,7 +44,7 @@ const PlayGame = () => {
       {currentGame.slug && (
         <WebView
           originWhitelist={['*']}
-          source={{uri: `file:///android_asset/${currentGame.slug.replace(/-/g, '')}/index.html`}} // For Android
+          source={{uri: `file:///android_asset/${currentGame.slug}/index.html`}} // For Android
           javaScriptEnabled={true}
           domStorageEnabled={true}
           allowFileAccess={true}

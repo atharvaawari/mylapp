@@ -31,6 +31,7 @@ const GamePageHead = () => {
         </View>
       </View>
 
+      <View style={styles.shadowContainer}>
       <View style={styles.imageView}>
         <Image
           style={styles.gameImage}
@@ -48,6 +49,7 @@ const GamePageHead = () => {
             <Text style={styles.startButtonText}>START GAME</Text>
           </View>
         </TouchableOpacity>
+      </View>
       </View>
     </>
   );
@@ -82,10 +84,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
-  imageView: {
+  shadowContainer: {
     width: '100%',
     height: 250,
-    justifyContent: 'center',
+    elevation: 5,           
+    backgroundColor: '#fff', 
+    borderRadius: 10,
+    marginBottom: 16,        
+  },
+  imageView: {
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
     alignItems: 'center',
   },
   gameImage: {

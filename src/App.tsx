@@ -42,8 +42,10 @@ function TabNavigator() {
             <Image
               source={iconSource}
               style={{
-                width: focused ? 42 : 40,
-                height: focused ? 42 : 40,
+                width: focused ? 52 : 50,
+                height: focused ? 52 : 50,
+                alignSelf:'center',
+                marginTop:35,
               }}
               resizeMode="contain"
             />
@@ -54,19 +56,14 @@ function TabNavigator() {
           fontWeight: 'bold',
         },
         tabBarStyle: {
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingTop: 10,
-          paddingBottom: 10,
           backgroundColor: '#fff',
           height: 70,
         },
         tabBarActiveTintColor: '#42f44b',
         tabBarInactiveTintColor: 'gray',
       })}>
-      <Tab.Screen name="Main" component={HomeStackNavigator} options={{ headerShown: false }}/>
-      <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+      <Tab.Screen name="Main" component={HomeStackNavigator} options={{ headerShown: false, tabBarLabel: '' }}/>
+      <Tab.Screen name="Profile" component={Profile} options={{ headerShown: false, tabBarLabel: '' }} />
     </Tab.Navigator>
   );
 }
