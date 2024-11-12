@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, StyleSheet, Image} from 'react-native';
+import {View, Text, Button, StyleSheet, Image, useColorScheme} from 'react-native';
 import {
   GoogleSignin,
   statusCodes,
@@ -13,6 +13,9 @@ import {
 // });
 
 export default function LoginScreen({navigation}) {
+
+  const isDarkMode = useColorScheme() === 'white'
+
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -139,7 +142,7 @@ export default function LoginScreen({navigation}) {
     // </View>
 
     <View style={styles.container}>
-      <Text style={styles.title}>Login To Play</Text>
+      <Text style={[styles.title, isDarkMode ? styles.whiteText : styles.darkText]}>Login To Play</Text>
       <Button title="Login with Google" onPress={signInWithGoogle} />
     </View>
   );
@@ -157,4 +160,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  whiteText: {
+    color:'#fff'
+  },
+  darkText:{
+    color:"#000"
+  }
 });

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {API_SECRET_KEY} from '@env';
+// import {API_SECRET_KEY} from '@env';
 import ScoreTable from '../components/ScoreTable';
 import {useFocusEffect} from '@react-navigation/native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';

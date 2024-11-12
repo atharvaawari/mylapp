@@ -1,0 +1,74 @@
+[
+  {
+  "slug": "2048-online-game",
+  "icon": "game-img-5" ,
+  "category": "math based games",
+  "usersplayed": "432"
+  },
+  {
+  "slug": "card-game",
+  "icon": "game-img-6",
+  "category": "cognitive skills games",
+  "usersplayed": "341"
+  },
+  {
+  "slug": "minesweeper-game",
+  "icon": "game-img-3",
+  "category": "brain games",
+  "usersplayed": "170"
+  },
+  {
+  "slug": "number-puzzle-game",
+  "icon": "number-puzzle-game",
+  "category": "puzzle games",
+  "usersplayed": "159"
+  },
+  {
+  "slug": "watermelon-drop",
+  "icon": "watermelon-drop",
+  "category": "brain games",
+  "usersplayed": "276"
+  },
+  {
+  "slug": "number-tap-game",
+  "icon": "number-tap-game",
+  "category": "cognitive skills games",
+  "usersplayed": "220"
+  },
+  {
+  "slug": "math-runner",
+  "icon": "math-runner",
+  "category": "math based games",
+  "usersplayed": "405"
+  },
+  {
+  "slug": "color-mind-match",
+  "icon": "color-mind-match",
+  "category": "cognitive skills games",
+  "usersplayed": "385"
+  },
+  {
+  "slug": "memory-blink",
+  "icon": "memory-blink",
+  "category": "cognitive skills games",
+  "usersplayed": "324"
+  },
+  {
+  "slug": "math-matrix",
+  "icon": "math-matrix",
+  "category": "math based games",
+  "usersplayed": "272"
+  },
+  {
+  "slug": "crack-the-code",
+  "icon": "crack-the-code",
+  "category": "brain games",
+  "usersplayed": "176"
+  },
+  {
+  "slug": "remember-the-thief",
+  "icon": "remember-the-thief",
+  "category": "cognitive skills games",
+  "usersplayed": "254"
+  }
+  ]

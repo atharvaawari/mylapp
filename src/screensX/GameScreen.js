@@ -6,9 +6,7 @@ const GameScreen = ({ route }) => {
 
   const { gameId, userName } = route.params;
 
-  // console.log("userName user", userName);
-
-  // JavaScript to inject into the WebView for error logging
+  
   const injectedJS = `
     (function() {
      
