@@ -1,15 +1,18 @@
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import {GameContext} from '../../context/Context';
 import {images} from '../../constants/gameImages';
 
 const GameList = () => {
-  const {dispatch, filteredCurrentGame} = useContext(GameContext);
+  const {state, dispatch} = useContext(GameContext);
 
+  const filteredCurrentGame = useMemo(() => {
+    return state.games.filter(game => game.slug !== state.currentGame?.slug);
+  }, [state.currentGame]);
 
-  const handleCardPress =(game)=>{
+  const handleCardPress = game => {
     dispatch({type: 'SET_CURRENT_GAME', payload: game});
-  }
+  };
 
   return (
     <View style={styles.gamelistcontainer}>
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 10,
-    elevation:2.5,
+    elevation: 2.5,
   },
   gameName: {
     fontSize: 12,

@@ -25,3 +25,14 @@ keytool -list -v -keystore ./android/App/debug.keystore -alias androiddebugkey -
 Developer Error in google authentication:-
 
 step1:
+
+Total = 82mb
+game CTC 4.22 -> 2.07
+game math-m 3.2 -> 2.58
+game math-r 11mb -> 3.57
+memory-blink 2.70 -> 2.20mb
+minesweeper-game 10.1 -> 3.6
+number-puzzle-game 7.25 -> 6
+number-tap-game 6 -> 3
+remember-thief 28 -> 5.25
+watermelon-drop 3 ->

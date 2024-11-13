@@ -8,6 +8,7 @@ import PlayGame from './screens/PlayGame';
 import Profile from './screens/Profile';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { GameProvider } from './context/Context';
+import GameScore from './screens/GameScore';
 
 
 const Stack = createStackNavigator();
@@ -19,6 +20,7 @@ function HomeStackNavigator() {
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
             <Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
             <Stack.Screen name="PlayGame" component={PlayGame} options={{ headerShown: false }} />
+            <Stack.Screen name="GameScore" component={GameScore} options={{ headerShown: false }} />
           </Stack.Navigator>
   )
 }
@@ -46,6 +48,7 @@ function TabNavigator() {
                 height: focused ? 52 : 50,
                 alignSelf:'center',
                 marginTop:35,
+
               }}
               resizeMode="contain"
             />

@@ -1,9 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {GameContext} from '../../context/Context';
+import { useNavigation } from '@react-navigation/native';
+
+// import { API_SECRET_KEY, API_BASE_URL} from '@env';
 
 const CurrGameLeaderBoard = () => {
-  const [gameData, setGameData] = useState([]);
-  const [globalData, setGlobalData] = useState([]);
+  const {state, dispatch} = useContext(GameContext);
+  const {currentGame} = state;
+  const navigation = useNavigation();
+
   const [currentGamePage, setCurrentGamePage] = useState(0);
   const [currentGlobalPage, setCurrentGlobalPage] = useState(0);
   const itemsPerPage = 5;
@@ -17,26 +23,33 @@ const CurrGameLeaderBoard = () => {
       if (!response.ok) {
         console.error(`HTTP error! Status: ${response.status}`);
         const errorText = await response.text();
-        console.error('Error response:', errorText); // Log raw error response
+        console.error('Error response:', errorText); 
         return;
       }
 
       const data = await response.json();
-      setGlobalData(data);
+      // setGlobalData(data);
+      dispatch({type: 'SET_GLOBAL_SCORE' , payload: data})
     } catch (error) {
       console.error('Fetch error:', error);
     }
   };
 
+  // const fetchGame = async ()=>{
+  //   const url = `${API_BASE_URL}/games/curr-game-rank?game=${encodeURIComponent('color-mind-match')}&key=${encodeURIComponent(API_SECRET_KEY)}`;
+  // }
+
   const fetchGameScore = async () => {
     try {
       const response = await fetch(
-        `https://www.mindyourlogic.com/api/games/curr-game-rank?game=color-mind-match&key=LogicalBaniyaSecretKey`,
+        `https://www.mindyourlogic.com/api/games/curr-game-rank?game=${encodeURIComponent(
+          currentGame.slug,
+        )}&key=LogicalBaniyaSecretKey`,
       );
 
       const data = await response.json();
-      setGameData(data);
-
+      // setGameData(data);
+      dispatch({type:'SET_CURRENT_GAME_SCORE', payload:data})
     } catch (error) {
       console.error(error);
     }
@@ -45,19 +58,19 @@ const CurrGameLeaderBoard = () => {
   useEffect(() => {
     fetchGameScore();
     fetchGlobalScore();
-  }, []);
+  }, [currentGame]);
 
   // Pagination data for gameData and globalData
   const gameStartIndex = currentGamePage * itemsPerPage;
   const gameEndIndex = gameStartIndex + itemsPerPage;
-  const currentGameData = gameData.slice(gameStartIndex, gameEndIndex);
+  const currentGameData = state?.currentGameScore.slice(gameStartIndex, gameEndIndex);
 
   const globalStartIndex = currentGlobalPage * itemsPerPage;
   const globalEndIndex = globalStartIndex + itemsPerPage;
-  const currentGlobalData = globalData.slice(globalStartIndex, globalEndIndex);
+  const currentGlobalData = state?.globalScore.slice(globalStartIndex, globalEndIndex);
 
   const handleNextGame = () => {
-    if (gameEndIndex < gameData.length) {
+    if (gameEndIndex < state?.currentGameScore.length) {
       setCurrentGamePage(currentGamePage + 1);
     }
   };
@@ -68,8 +81,12 @@ const CurrGameLeaderBoard = () => {
     }
   };
 
+  const handleShowAll = (title) => {
+    navigation.navigate('GameScore', {title});
+  }
+
   const handleNextGlobal = () => {
-    if (globalEndIndex < globalData.length) {
+    if (globalEndIndex < state?.globalScore.length) {
       setCurrentGlobalPage(currentGlobalPage + 1);
     }
   };
@@ -82,12 +99,15 @@ const CurrGameLeaderBoard = () => {
 
   const renderLeaderboard = (title, data, handlePrev, handleNext) => (
     <View style={styles.leaderboardContainer}>
-      <Text style={styles.leaderboardTitle}>{title}</Text>
+      <View style={styles.leaderboardTitle}>
+        <Text style={styles.leaderboardTitleText}>{title} {title === 'Score Board' ? ` ${currentGame.slug.replace(/-/g, ' ')}` : ` `}</Text>
+      </View>
       <View style={styles.rankbox}>
         {data.map((item, index) => (
           <View key={`${item.id}-${index}`} style={styles.leaderboardItem}>
             <Text style={styles.leaderboardName}>
-              {index+1}. {title==="Score Board" ? ` ${item.Name}`: ` ${item.name}`}
+              {index + 1}.{' '}
+              {title === 'Score Board' ? ` ${item.Name}` : ` ${item.name}`}
             </Text>
             <Text style={styles.leaderboardScore}>{item.points}</Text>
           </View>
@@ -96,6 +116,11 @@ const CurrGameLeaderBoard = () => {
           <TouchableOpacity style={styles.seeMoreButton} onPress={handlePrev}>
             <Text style={styles.seeMoreButtonText}>Prev</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.seeMoreButton} onPress={() => handleShowAll(title)}>
+            <Text style={styles.seeMoreButtonText}>Show all</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.seeMoreButton} onPress={handleNext}>
             <Text style={styles.seeMoreButtonText}>Next</Text>
           </TouchableOpacity>
@@ -130,13 +155,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   leaderboardTitle: {
+    backgroundColor: '#ffd700',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    padding: 16,
+  },
+  leaderboardTitleText:{
+    textAlign:'center',
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    backgroundColor: '#ffd700',
-    padding: 16,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
   },
   leaderboardItem: {
     flexDirection: 'row',

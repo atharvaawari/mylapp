@@ -86,11 +86,10 @@ const styles = StyleSheet.create({
   },
   shadowContainer: {
     width: '100%',
-    height: 250,
+    height: 220,
     elevation: 5,           
     backgroundColor: '#fff', 
-    borderRadius: 10,
-    marginBottom: 16,        
+    borderRadius: 10,     
   },
   imageView: {
     width: '100%',
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   fadeOverlay: {
-    position: 'absolute',  // Position it over the image
+    position: 'absolute',  
     top: 0,
     left: 0,
     right: 0,

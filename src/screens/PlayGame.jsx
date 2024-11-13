@@ -6,8 +6,6 @@ import WebView from 'react-native-webview';
 const PlayGame = () => {
   const {state} = useContext(GameContext);
   const {currentGame} = state;
-  console.log('currentGame', currentGame.slug.replace(/-/g, ''));
-  console.log(`Loading file from: file:///android_asset/${currentGame.slug}/index.html`);
 
   // window.userName = ${JSON.stringify(userName)};
 

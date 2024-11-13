@@ -50,7 +50,11 @@ const GameCategories = () => {
                   <View style={styles.cardBottom}>
                     <Text style={styles.usersPlayed}>{game.usersplayed}</Text>
 
-                    <TouchableOpacity style={styles.playButton}>
+                    <TouchableOpacity 
+                    style={styles.playButton}
+                    key={game.slug}
+                    onPress={() => handleCardPress(game)}
+                    >
                       <Text style={styles.playButtonText}>Play</Text>
                     </TouchableOpacity>
                   </View>
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     marginBottom: 15,
-    width: '48%',
+    width: '47%',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     width: '100%',
-    height: 180, // Smaller image height for the card
+    height: 150, // Smaller image height for the card
     resizeMode: 'cover',
   },
   cardContent: {
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
   },
   playButton: {
     backgroundColor: '#42f44b',
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderRadius: 5,
     alignItems: 'center',
     width: '50%',
