@@ -20,7 +20,7 @@ const ScoreBoard = () => {
   //states fetching for score
   const {state} = useContext(GameContext);
   const {userState} = useContext(AuthContext);
-  const {user} = userState;
+  const userName = userState.user?.user_name;
   const [userScore, setUserScore] = useState({ score: null, topScore: null });
   
 
@@ -35,11 +35,10 @@ const ScoreBoard = () => {
 
   //for fetchig every time the state update
   useEffect(() => {
-    const userName = user?.user_name;
     if (userName) {
       fetchUserGlobalScore(userName);
     }
-  }, [state.globalScore, user]);
+  }, [state.globalScore, userState.user]);
 
   return (
     <View>

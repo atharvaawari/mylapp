@@ -8,9 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
 
-  const clearAsyncStorage = async () => {
-    AsyncStorage.clear();
-  };
+  // const clearAsyncStorage = async () => {
+  //   AsyncStorage.clear();
+  // };
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -26,9 +26,9 @@ const Home = () => {
             <View style={styles.sectionContainer}>
               <GameCategories />
             </View>
-            <Button title="Clear data" onPress={clearAsyncStorage}>
+            {/* <Button title="Clear data" onPress={clearAsyncStorage}>
             <Text>Clear Async Storage</Text>
-          </Button>
+          </Button> */}
           </View>
 
           

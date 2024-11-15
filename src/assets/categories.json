@@ -1,74 +1,86 @@
 [
   {
-  "slug": "2048-online-game",
-  "icon": "game-img-5" ,
-  "category": "math based games",
-  "usersplayed": "432"
+    "slug": "2048-online-game",
+    "icon": "game-img-5",
+    "category": "math based games",
+    "usersplayed": "432",
+    "levels": "[0,2000,4000,6000,8000,10000,15000,20000,25000,30000]"
   },
   {
-  "slug": "card-game",
-  "icon": "game-img-6",
-  "category": "cognitive skills games",
-  "usersplayed": "341"
+    "slug": "card-game",
+    "icon": "game-img-6",
+    "category": "cognitive skills games",
+    "usersplayed": "341",
+    "levels": "[0,2000,4000,6000,8000,1000,12000,14000,16000,18000]"
   },
   {
-  "slug": "minesweeper-game",
-  "icon": "game-img-3",
-  "category": "brain games",
-  "usersplayed": "170"
+    "slug": "minesweeper-game",
+    "icon": "game-img-3",
+    "category": "brain games",
+    "usersplayed": "170",
+    "levels": "[0, 4000, 6000, 8000, 10000, 15000, 20000, 30000, 40000, 50000]"
   },
   {
-  "slug": "number-puzzle-game",
-  "icon": "number-puzzle-game",
-  "category": "puzzle games",
-  "usersplayed": "159"
+    "slug": "number-puzzle-game",
+    "icon": "number-puzzle-game",
+    "category": "puzzle games",
+    "usersplayed": "159",
+    "levels": "[0,1000,2000,4000,8000,10000,15000,20000,25000,30000]"
   },
   {
-  "slug": "watermelon-drop",
-  "icon": "watermelon-drop",
-  "category": "brain games",
-  "usersplayed": "276"
+    "slug": "watermelon-drop",
+    "icon": "watermelon-drop",
+    "category": "brain games",
+    "usersplayed": "276",
+    "levels": "[0,4000,6000,8000,10000,12000,14000,16000,18000,20000]"
   },
   {
-  "slug": "number-tap-game",
-  "icon": "number-tap-game",
-  "category": "cognitive skills games",
-  "usersplayed": "220"
+    "slug": "number-tap-game",
+    "icon": "number-tap-game",
+    "category": "cognitive skills games",
+    "usersplayed": "220",
+    "levels": " [0, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000 ]"
   },
   {
-  "slug": "math-runner",
-  "icon": "math-runner",
-  "category": "math based games",
-  "usersplayed": "405"
+    "slug": "math-runner",
+    "icon": "math-runner",
+    "category": "math based games",
+    "usersplayed": "405",
+    "levels": "[0, 30000, 50000, 60000, 70000, 90000, 110000, 120000, 135000, 150000 ]"
   },
   {
-  "slug": "color-mind-match",
-  "icon": "color-mind-match",
-  "category": "cognitive skills games",
-  "usersplayed": "385"
+    "slug": "color-mind-match",
+    "icon": "color-mind-match",
+    "category": "cognitive skills games",
+    "usersplayed": "385",
+    "levels": "[0, 10000, 20000, 30000, 40000, 50000, 60000, 65000, 75000, 80000 ]"
   },
   {
-  "slug": "memory-blink",
-  "icon": "memory-blink",
-  "category": "cognitive skills games",
-  "usersplayed": "324"
+    "slug": "memory-blink",
+    "icon": "memory-blink",
+    "category": "cognitive skills games",
+    "usersplayed": "324",
+    "levels": "[0, 5000, 10000, 15000, 20000, 25000, 35000, 50000, 70000, 90000 ]"
   },
   {
-  "slug": "math-matrix",
-  "icon": "math-matrix",
-  "category": "math based games",
-  "usersplayed": "272"
+    "slug": "math-matrix",
+    "icon": "math-matrix",
+    "category": "math based games",
+    "usersplayed": "272",
+    "levels": "[ 0, 50000, 60000, 800000, 100000, 110000, 120000, 130000, 140000,  150000]"
   },
   {
-  "slug": "crack-the-code",
-  "icon": "crack-the-code",
-  "category": "brain games",
-  "usersplayed": "176"
+    "slug": "crack-the-code",
+    "icon": "crack-the-code",
+    "category": "brain games",
+    "usersplayed": "176",
+    "levels": "[0, 5000, 6000, 8000, 10000, 11000, 12000, 13000, 14000,  15000]"
   },
   {
-  "slug": "remember-the-thief",
-  "icon": "remember-the-thief",
-  "category": "cognitive skills games",
-  "usersplayed": "254"
+    "slug": "remember-the-thief",
+    "icon": "remember-the-thief",
+    "category": "cognitive skills games",
+    "usersplayed": "254",
+    "levels": "[0, 3000, 6000, 9000, 12000, 15000, 20000, 23000, 27000, 29000]"
   }
-  ]
+]

@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {GameContext} from '../context/Context';
-import GamePageHead from '../components/Games/GamePageHead';
+import GamePageHeader from '../components/Games/GamePageHeader';
 import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import GameList from '../components/Games/GameList';
@@ -27,7 +27,7 @@ const Game = () => {
           <View style={styles.mainScreen}>
             {/* Game Header */}
             <View style={styles.sectionContainer}>
-              <GamePageHead />
+              <GamePageHeader />
             </View>
 
             {/* Games list */}
