@@ -1,124 +1,65 @@
-import React, {useState, useEffect} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useContext, useEffect} from 'react';
 import {
   View,
   Text,
   Image,
-  Button,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-// import {DataTable} from 'react-native-paper';
-// import {useUserContext} from '../context/UserContext';
-// import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {useAuth} from '../context/AuthContext';
 
-const Profile = ({navigation, route}) => {
-  // const {userdata} = route.params;
-  // const {scores} = route.params;
+const Profile = () => {
+  const navigation = useNavigation();
 
-  // const {dispatch, state} = useUserContext();
-  // const {user_name} = userdata;
-  // console.log("userdata.user_name", userdata)
-  const [user, setUser] = useState(null);
-  const [position, setPosition] = useState(12);
-  const [userPoints, setUserPoints] = useState(20000);
-  const [namee, setUserName] = useState(null);
+  const {state, login, logout} = useAuth();
+  const {isGuest, isAuthenticated, user} = state;
 
-  // Handle logout and navigate to the login screen
-  const handleLogout = async () => {
-    // try {
-    //   await GoogleSignin.signOut();
-    //   setUser(null); // Clear user info
-    //   navigation.navigate('Login'); // Navigate to Login screen
-    // } catch (error) {
-    //   console.error('Error signing out:', error);
-    // }
+  console.log('state', isGuest, isAuthenticated, user);
+
+  
+  const handleRankPress = () => {
+    const title = 'Score Board';
+
+    navigation.navigate('Main', {
+      screen: 'GameScore',
+      params: {title: 'Global Score'},
+    }); // The GameScore screen is in the HomeStackNavigator. If you’re navigating from a screen outside this stack, you’ll need to target the nested navigator explicitly.
   };
 
-  // Fetch user data from API and update context
-  // useEffect(() => {
-  //   if (user_name) {
-  //     const fetchUserData = async () => {
-  //       try {
-  //         const response = await fetch(
-  //           `https://www.mindyourlogic.com/api/games/global-games-rank`,
-  //         );
-  //         const data = await response.json();
-  //         console.log('Fetched Data:', data);
+    const handleLoginPress = () => {
+      navigation.navigate('Main', {
+        screen:'Login',
+      })
+    }
 
-  //         // Assigning a number (1, 2, 3, 4...) to each user based on their position in the array
-  //         const dataWithNumbers = data.map((user, index) => ({
-  //           ...user,
-  //           number: index + 1, // Adding the number (1, 2, 3, etc.)
-  //         }));
-
-  //         // Find the user based on user_name
-  //         const user = dataWithNumbers.find(
-  //           user => user.user_name === user_name,
-  //         );
-  //         if (user) {
-  //           const userNumber = user.number; // Extract the position number
-  //           const userPoints = user.points; // Extract the points
-  //           const namee = user.name;
-
-  //           console.log('Matched User:', user);
-
-  //           // Set the state with the fetched position and points
-  //           setPosition(1);
-  //           setUserPoints(20000); // Store points here
-  //           setUserName("Atharva");
-
-  //           console.log('Fetched user number:', userNumber);
-  //           console.log('Fetched user points:', userPoints);
-  //           console.log('Fetched user Name:', namee);
-  //         } else {
-  //           console.error('User not found:', user_name);
-  //         }
-
-  //         const secondApiResponse = await fetch(
-  //           `https://www.mindyourlogic.com/get-user-game-data`, // Replace with your second API URL
-  //         );
-  //         const secondApiData = await secondApiResponse.json();
-  //         console.log('Second API Fetched Data:', secondApiData);
-
-  //         // Store the fetched data from the second API in the state
-  //         setSecondApiData(secondApiData);
-  //         console.log('Fetched secondApiData:', secondApiData);
-
-  //       } catch (error) {
-  //         console.error('Error fetching user data:', error);
-  //       }
-  //     };
-
-  //     fetchUserData();
-  //   }
-  // }, [user_name]);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.wrapper}>
           <View style={styles.container}>
-            {/* Profile Photo */}
             <Image
-              source={require('../assets/icons/profile.jpeg')}
+              source={user ? {uri: user.userPicture} : require('../assets/icons/profile.jpeg')}
               style={styles.profilePhoto}
             />
 
-            {/* Details beside the profile photo */}
-            <View style={styles.details}>
-              <Text style={styles.name}>Atharva</Text>
-              <Text style={styles.username}>Atharva_123</Text>
-              <TouchableOpacity style={styles.logoutbtn} onPress={handleLogout}>
-                <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
-                  Logout
+            <View style={styles.details}> 
+              <Text style={styles.name}>{user ? user.name : "Login for your score"}</Text>
+              <Text style={styles.username}>{user ? user.user_name : "Guest"}</Text>
+              <TouchableOpacity 
+              onPress={user ? logout : handleLoginPress }
+              style={styles.logoutbtn}
+              >
+                <Text style={styles.profileButton}>
+                  {user ? "Logout" : "Login"}
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
 
-          {/* Third Additional Box */}
           <View style={styles.infoBox}>
             <Text style={styles.infoText}>Game Score</Text>
             <View style={styles.line} />
@@ -128,33 +69,26 @@ const Profile = ({navigation, route}) => {
                   source={require('../assets/icons/trophy.png')}
                   style={styles.trophy}
                 />
-                <Text style={styles.ranktxt}>
-                  Rank:{position !== null ? position : 'Loading...'}
-                </Text>
+                <Text style={styles.ranktxt}>Rank:{1}</Text>
                 <View style={styles.verticalLine} />
                 <Image
                   source={require('../assets/icons/scorecard.png')}
                   style={styles.trophy}
                 />
-                <Text style={styles.ranktxt}>
-                  Score: {userPoints !== null ? userPoints : 'Loading...'}
-                </Text>
+                <Text style={styles.ranktxt}>Score: {2000}</Text>
               </View>
             </View>
           </View>
 
-          {/* Button for Global ranking and detective iq ranking */}
           <View style={styles.container2}>
             <TouchableOpacity
               style={styles.GlobalRankbtn}
-              onPress={() => navigation.navigate('GameScore')}>
+              onPress={handleRankPress}>
               <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
                 Game Ranking
               </Text>
             </TouchableOpacity>
           </View>
-
-          
         </View>
       </ScrollView>
     </GestureHandlerRootView>
@@ -163,8 +97,8 @@ const Profile = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   scrollContent: {
-    flexGrow: 1, // Ensures the ScrollView content grows to fill space
-    justifyContent: 'flex-start', // Makes sure content starts at the top
+    flexGrow: 1,
+    justifyContent: 'flex-start', 
   },
   wrapper: {
     alignItems: 'center',
@@ -179,11 +113,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#6C57C0',
   },
-
   tableText: {
-    color: '#fff', // Ensure table text is white
+    color: '#fff', 
   },
 
+  profileButton:{
+    textAlign: 'center', 
+    fontWeight: 'bold',
+    fontSize:16,
+  },
   rankTableContainer: {
     backgroundColor: '#533fa0',
     padding: 10,
@@ -234,7 +172,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   username: {
-    fontSize: 16,
+    fontSize: 20,
     color: '#fff',
     marginBottom: 8,
   },

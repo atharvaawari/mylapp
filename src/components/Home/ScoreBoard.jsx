@@ -1,5 +1,13 @@
-import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const ScoreBox = ({icon, title}) => {
   return (
@@ -12,32 +20,35 @@ const ScoreBox = ({icon, title}) => {
 };
 
 const ScoreBoard = () => {
+  const navigation = useNavigation();
+
   return (
     <View>
       <View style={styles.board}>
         <ScoreBox
-          icon={{
-            uri: 'https://www.mindyourlogic.com/static/Home_page_Assets/top-score-dc.webp',
-          }}
+          icon={require('../../assets/icons/game-score.webp')}
           title="Game Score"
         />
         <ScoreBox
-          icon={{
-            uri: 'https://www.mindyourlogic.com/static/Home_page_Assets/your-rank.webp',
-          }}
+          icon={require('../../assets/icons/your-score.webp')}
           title="Your Score"
         />
         <ScoreBox
-          icon={{
-            uri: 'https://www.mindyourlogic.com/static/Home_page_Assets/your-score-dc.webp',
-          }}
+          icon={require('../../assets/icons/your-score-dc.webp')}
           title="Your Rank"
         />
       </View>
 
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.rankBtn} >
-          <Image source={{uri: 'https://www.mindyourlogic.com/static/Home_page_Assets/your-score-dc.webp'}} style={{width: 35, height: 35,}}/>
+        <TouchableOpacity
+          style={styles.rankBtn}
+          onPress={() =>
+            navigation.navigate('GameScore', {title: 'Global Score'})
+          }>
+          <Image
+            source={require('../../assets/icons/your-score-dc.webp')}
+            style={{width: 35, height: 35}}
+          />
           <Text style={styles.rankBtnText}>Game Ranking</Text>
         </TouchableOpacity>
       </View>
@@ -85,24 +96,24 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   rankBtn: {
-    backgroundColor: '#fdc102', 
-    paddingVertical: 12, 
-    paddingHorizontal: 24, 
-    borderWidth:.5, 
-    borderRadius: 5, 
+    backgroundColor: '#fdc102',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderWidth: 0.5,
+    borderRadius: 5,
     flexDirection: 'row',
     gap: 5,
-    alignItems: 'center', 
+    alignItems: 'center',
     justifyContent: 'center',
     elevation: 5,
-    shadowColor: '#755900', 
-    shadowOffset: { width: 0, height: 2.79 }, 
-    shadowOpacity: 0.48, 
+    shadowColor: '#755900',
+    shadowOffset: {width: 0, height: 2.79},
+    shadowOpacity: 0.48,
     shadowRadius: 4,
   },
   rankBtnText: {
-    color: '#000', 
-    fontSize: 16, 
+    color: '#000',
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

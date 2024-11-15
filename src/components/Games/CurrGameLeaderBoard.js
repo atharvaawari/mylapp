@@ -57,7 +57,7 @@ const CurrGameLeaderBoard = () => {
 
   useEffect(() => {
     fetchGameScore();
-    fetchGlobalScore();
+    // fetchGlobalScore();
   }, [currentGame]);
 
   // Pagination data for gameData and globalData

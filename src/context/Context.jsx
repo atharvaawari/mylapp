@@ -6,13 +6,13 @@ const initialState = {
   games: [],
   currentGame: null,
   currentGameScore: [],
-  globalScore:[],
+  globalScore: [],
 };
 
 const SET_GAMES = 'SET_GAMES';
 const SET_CURRENT_GAME = 'SET_CURRENT_GAME';
-const SET_GLOBAL_SCORE ='SET_GLOBAL_SCORE';
-const SET_CURRENT_GAME_SCORE ='SET_CURRENT_GAME_SCORE';
+const SET_GLOBAL_SCORE = 'SET_GLOBAL_SCORE';
+const SET_CURRENT_GAME_SCORE = 'SET_CURRENT_GAME_SCORE';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -34,12 +34,34 @@ export const GameContext = createContext();
 export const GameProvider = ({children}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const fetchGlobalScore = async () => {
+    try {
+      const response = await fetch(
+        `https://www.mindyourlogic.com/api/games/global-games-rank`,
+      );
+
+      if (!response.ok) {
+        console.error(`HTTP error! Status: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        return;
+      }
+
+      const data = await response.json();
+      dispatch({type: 'SET_GLOBAL_SCORE', payload: data});
+      
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
   useEffect(() => {
     dispatch({type: SET_GAMES, payload: gameData});
+    fetchGlobalScore();
   }, []);
 
   return (
-    <GameContext.Provider value={{state, dispatch }}>
+    <GameContext.Provider value={{state, dispatch}}>
       {children}
     </GameContext.Provider>
   );

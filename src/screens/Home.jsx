@@ -1,16 +1,17 @@
 import React from 'react';
-import {
-  StyleSheet, 
-  Text, 
-  View, 
-  SafeAreaView
-} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, Button} from 'react-native';
 import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import ScoreBoard from '../components/Home/ScoreBoard';
 
 import GameCategories from '../components/Home/GameCategories';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
+
+  const clearAsyncStorage = async () => {
+    AsyncStorage.clear();
+  };
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaView>
@@ -25,7 +26,12 @@ const Home = () => {
             <View style={styles.sectionContainer}>
               <GameCategories />
             </View>
+            <Button title="Clear data" onPress={clearAsyncStorage}>
+            <Text>Clear Async Storage</Text>
+          </Button>
           </View>
+
+          
         </ScrollView>
       </SafeAreaView>
     </GestureHandlerRootView>

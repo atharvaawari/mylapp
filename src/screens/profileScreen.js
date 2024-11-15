@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DataTable} from 'react-native-paper';
-import {useUserContext} from '../context/UserContext';
+import {useUserContext} from '../context/AuthContext';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const profile = ({navigation, route}) => {

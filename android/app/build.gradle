@@ -3,6 +3,9 @@ apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 apply plugin: 'com.android.application'
 
+//config-for-react-native-config
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 project.ext.react = [
     enableHermes: true,  // Enable Hermes
 ]
@@ -145,6 +148,8 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation 'com.google.android.gms:play-services-auth:20.0.0'
     implementation "androidx.browser:browser:1.2.0" 
+    implementation project(':react-native-config')
+    
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

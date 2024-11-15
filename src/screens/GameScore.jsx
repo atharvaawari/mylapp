@@ -33,6 +33,8 @@ export default GameScore = ({ route }) => {
       }));
       setFilteredScores(rankedScores); 
       setLoading(false); 
+    } else{
+      
     }
   }, [currentGameScore]);
   

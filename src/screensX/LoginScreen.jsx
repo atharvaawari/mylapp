@@ -62,7 +62,7 @@ export default function LoginScreen({navigation}) {
   };
 
   const fetchUserData = async userInfo => {
-    // console.log('userInfo', userInfo);
+    
     try {
       const response = await fetch(
         `https://www.mindyourlogic.com/mobile-app-login`,
