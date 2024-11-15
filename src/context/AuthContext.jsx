@@ -34,15 +34,15 @@ const initialState = {
 
 
 export const AuthProvider = ({children}) => {
-  const [state, dispatch] = useReducer(authReducers, initialState);
+  const [ userState, userDispatch] = useReducer(authReducers, initialState);
 
   useEffect(()=>{
     const checkAuthentication = async ()=> {
       const userData = await getData('user');
       if(userData) {
-        dispatch({type: 'SET_USER', payload: userData });
+        userDispatch({type: 'SET_USER', payload: userData });
       }else{
-        dispatch({ type: 'SET_GUEST' });
+        userDispatch({ type: 'SET_GUEST' });
       }
     };
 
@@ -51,16 +51,16 @@ export const AuthProvider = ({children}) => {
 
   const login = async (user) => {
     await storeData('user', user); 
-    dispatch({ type: 'LOGIN', payload: user });
+    userDispatch({ type: 'LOGIN', payload: user });
   };
 
   const logout = async () => {
     await storeData('user', null); 
-    dispatch({ type: 'LOGOUT' });
+    userDispatch({ type: 'LOGOUT' });
   };
 
   return (
-    <AuthContext.Provider value={{ state, login, logout }}>
+    <AuthContext.Provider value={{ userState, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

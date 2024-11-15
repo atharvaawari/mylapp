@@ -1,13 +1,24 @@
 import React, {useState} from 'react';
-import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import {
   loginWithEmailAndPassword,
   loginWithUsernameEmailPassword,
 } from '../services/authService';
 import {googleLogin} from '../services/googleAuth';
 import {useAuth} from '../context/AuthContext';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 const Login = () => {
+  const navigation = useNavigation();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -29,7 +40,7 @@ const Login = () => {
         email,
         password,
       );
-      login(user); // Store the user data in the global state
+      login(user);
     } catch (error) {
       console.log('Login failed:', error);
     }
@@ -38,17 +49,22 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       const user = await googleLogin();
-      // login(user); // Store the user data in the global state
+    
+      navigation.dispatch(StackActions.popToTop());  //Pop To top means Home Screen 
+
+      login(user);
     } catch (error) {
       console.log('Google login failed:', error);
     }
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.formContainer}>
         <Text style={styles.title}>Welcome to Game World</Text>
-        
+
         <TextInput
           placeholder="Username"
           value={username}
@@ -56,7 +72,7 @@ const Login = () => {
           style={styles.input}
           placeholderTextColor="#000"
         />
-        
+
         <TextInput
           placeholder="Email"
           value={email}
@@ -65,7 +81,7 @@ const Login = () => {
           keyboardType="email-address"
           placeholderTextColor="#000"
         />
-        
+
         <TextInput
           placeholder="Password"
           value={password}
@@ -75,15 +91,21 @@ const Login = () => {
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.loginButton} onPress={handleLoginWithEmail}>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={handleLoginWithEmail}>
           <Text style={styles.buttonText}>Login </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin}>
+        <TouchableOpacity
+          style={styles.googleButton}
+          onPress={handleGoogleLogin}>
           <Text style={styles.googleButtonText}>Continue with Google</Text>
         </TouchableOpacity>
 
-        <Text style={styles.footerText}>Don't have an account? <Text style={styles.signupLink}>Sign up</Text></Text>
+        <Text style={styles.footerText}>
+          Don't have an account? <Text style={styles.signupLink}>Sign up</Text>
+        </Text>
       </View>
     </KeyboardAvoidingView>
   );
@@ -101,7 +123,7 @@ const styles = StyleSheet.create({
     padding: 30,
     borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
+    shadowOffset: {width: 0, height: 10},
     shadowOpacity: 0.1,
     shadowRadius: 20,
     elevation: 5,

@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -10,16 +10,39 @@ import {
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useAuth} from '../context/AuthContext';
+import { GameContext } from '../context/Context';
 
 const Profile = () => {
   const navigation = useNavigation();
 
-  const {state, login, logout} = useAuth();
-  const {isGuest, isAuthenticated, user} = state;
 
-  console.log('state', isGuest, isAuthenticated, user);
-
+  //states fetching for score and user data
+  const {userState, logout} = useAuth();
+  const {user} = userState;
+  const {state} = useContext(GameContext);
+  const [userScore, setUserScore] = useState(null);
   
+
+  //fetching user globalScore
+  const fetchUserGlobalScore = (userName) => {
+    const score = state.globalScore?.find(userScore => {
+      return userScore.user_name === userName;
+    });
+    setUserScore(score); 
+  };
+
+  //for fetchig every time the state update
+  useEffect(() => {
+    const userName = user?.user_name;
+    if (userName) {
+      fetchUserGlobalScore(userName);
+    }
+
+    console.log("userScore",userScore);
+  }, [state.globalScore, user]);
+
+
+
   const handleRankPress = () => {
     const title = 'Score Board';
 
@@ -69,13 +92,13 @@ const Profile = () => {
                   source={require('../assets/icons/trophy.png')}
                   style={styles.trophy}
                 />
-                <Text style={styles.ranktxt}>Rank:{1}</Text>
+                <Text style={styles.ranktxt}>Rank: {userScore?.sno}</Text>
                 <View style={styles.verticalLine} />
                 <Image
                   source={require('../assets/icons/scorecard.png')}
                   style={styles.trophy}
                 />
-                <Text style={styles.ranktxt}>Score: {2000}</Text>
+                <Text style={styles.ranktxt}>Score: {userScore?.points}</Text>
               </View>
             </View>
           </View>

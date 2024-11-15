@@ -5,8 +5,11 @@ import { jwtDecode } from 'jwt-decode';
 
 const WEB_CLIENT_ID = Config.GOOGLE_WEB_CLIENT_ID;
 
+
+
+
 GoogleSignin.configure({
-  webClientId: WEB_CLIENT_ID, // From Google Cloud Console
+  webClientId: WEB_CLIENT_ID, 
   offlineAccess: true,
   forceCodeForRefreshToken: true,
 });
@@ -41,7 +44,6 @@ export const googleLogin = async () => {
     const userInfo = await GoogleSignin.signIn();
 
     const mylAppUser = await fetchUserData(userInfo.data);
-
     await storeData('user', mylAppUser);
 
     return mylAppUser;

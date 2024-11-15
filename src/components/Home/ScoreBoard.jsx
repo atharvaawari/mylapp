@@ -1,20 +1,15 @@
-import {
-  Button,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {GameContext} from '../../context/Context';
+import {AuthContext} from '../../context/AuthContext';
 
-const ScoreBox = ({icon, title}) => {
+const ScoreBox = ({icon, title, score}) => {
   return (
     <View style={styles.box}>
       <Image source={icon} style={styles.icon} />
       <Text style={styles.boxTitle}>{title}</Text>
-      <Text style={styles.boxScore}>1209775</Text>
+      <Text style={styles.boxScore}>{score? score : "-"}</Text>
     </View>
   );
 };
@@ -22,20 +17,47 @@ const ScoreBox = ({icon, title}) => {
 const ScoreBoard = () => {
   const navigation = useNavigation();
 
+  //states fetching for score
+  const {state} = useContext(GameContext);
+  const {userState} = useContext(AuthContext);
+  const {user} = userState;
+  const [userScore, setUserScore] = useState({ score: null, topScore: null });
+  
+
+  //fetching user globalScore
+  const fetchUserGlobalScore = (userName) => {
+    const topScore = state.globalScore[0]?.points;
+    const score = state.globalScore?.find(userScore => {
+      return userScore.user_name === userName;
+    });
+    setUserScore({score, topScore}); 
+  };
+
+  //for fetchig every time the state update
+  useEffect(() => {
+    const userName = user?.user_name;
+    if (userName) {
+      fetchUserGlobalScore(userName);
+    }
+  }, [state.globalScore, user]);
+
   return (
     <View>
       <View style={styles.board}>
         <ScoreBox
           icon={require('../../assets/icons/game-score.webp')}
           title="Game Score"
+          score={userScore?.topScore}
         />
         <ScoreBox
           icon={require('../../assets/icons/your-score.webp')}
           title="Your Score"
+          score={userScore.score?.points}
         />
         <ScoreBox
           icon={require('../../assets/icons/your-score-dc.webp')}
           title="Your Rank"
+          score={userScore.score?.sno}
         />
       </View>
 

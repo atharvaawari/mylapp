@@ -1,5 +1,7 @@
 import React, {createContext, useEffect, useReducer} from 'react';
+import Config from 'react-native-config';
 
+const API_BASE_URL = Config.API_BASE_URL;
 const gameData = require('../assets/categories.json');
 
 const initialState = {
@@ -37,7 +39,7 @@ export const GameProvider = ({children}) => {
   const fetchGlobalScore = async () => {
     try {
       const response = await fetch(
-        `https://www.mindyourlogic.com/api/games/global-games-rank`,
+        `${API_BASE_URL}/games/global-games-rank`,
       );
 
       if (!response.ok) {
@@ -49,7 +51,7 @@ export const GameProvider = ({children}) => {
 
       const data = await response.json();
       dispatch({type: 'SET_GLOBAL_SCORE', payload: data});
-      
+
     } catch (error) {
       console.error('Fetch error:', error);
     }
