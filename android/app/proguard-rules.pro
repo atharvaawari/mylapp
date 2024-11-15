@@ -27,3 +27,4 @@
 # Keep parts of the AndroidX libraries if they’re being used
 -keep class androidx.** { *; }
 -dontwarn androidx.**
+-keep class com.demo.BuildConfig { *; }

@@ -1,4 +1,4 @@
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {GoogleSignin, statusCodes} from '@react-native-google-signin/google-signin';
 import {storeData} from '../utils/asyncStorage';
 import Config from 'react-native-config';
 import { jwtDecode } from 'jwt-decode';
@@ -6,10 +6,10 @@ import { jwtDecode } from 'jwt-decode';
 const WEB_CLIENT_ID = Config.GOOGLE_WEB_CLIENT_ID;
 
 
-
+  console.log("WEB_CLIENT_ID", WEB_CLIENT_ID)
 
 GoogleSignin.configure({
-  webClientId: WEB_CLIENT_ID, 
+  webClientId: '458040499380-er76gohdqjlp3r61fbtasptjl5fkiu20.apps.googleusercontent.com', 
   offlineAccess: true,
   forceCodeForRefreshToken: true,
 });
@@ -49,6 +49,15 @@ export const googleLogin = async () => {
 
     return mylAppUser;
   } catch (error) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      console.log('User cancelled the sign-in');
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      console.log('Sign-in in progress');
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      console.log('Play Services not available');
+    } else {
+      console.error(error);
+    }
     console.error('Error with Google login:', error);
   }
 };

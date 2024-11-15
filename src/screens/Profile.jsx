@@ -37,8 +37,6 @@ const Profile = () => {
     if (userName) {
       fetchUserGlobalScore(userName);
     }
-
-    console.log("userScore",userScore);
   }, [state.globalScore, user]);
 
 
